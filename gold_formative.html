@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --destination-color: #e6f2ff;
+            --destination-accent: #4a89dc;
+            --preference-color: #e6ffe6;
+            --preference-accent: #48cfad;
+            --text-dark: #2c3e50;
+            --text-light: #f5f7fa;
+            --error-color: #e74c3c;
+            --info-color: #3498db;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--text-dark);
+            background-color: #f5f7fa;
+            line-height: 1.6;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--text-dark);
+        }
+        
+        .globe-icon {
+            font-size: 2.2rem;
+            color: var(--destination-accent);
+        }
+        
+        .destination-section {
+            background-color: var(--destination-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--destination-accent);
+        }
+        
+        .destination-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--destination-accent);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .destination-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .destination-item i {
+            color: var(--destination-accent);
+        }
+        
+        .preference-section {
+            background-color: var(--preference-color);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--preference-accent);
+        }
+        
+        .preference-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--preference-accent);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preference-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preference-item i {
+            color: var(--preference-accent);
+            font-size: 1.2rem;
+        }
+        
+        .details-panel {
+            padding: 20px;
+            margin-top: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .details-panel h3 {
+            margin-top: 0;
+            color: var(--text-dark);
+        }
+        
+        .details-panel p {
+            margin: 10px 0;
+        }
+        
+        h2 {
+            color: var(--text-dark);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            font-size: 1.2rem;
+        }
+        
+        form {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        input, select {
+            margin: 8px 0;
+            padding: 10px 12px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin-top: 12px;
+            cursor: pointer;
+            background-color: var(--destination-accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        #save-preference, #load-preferences {
+            background-color: var(--preference-accent);
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .preference-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .preference-controls select {
+            min-width: 200px;
+            flex-grow: 1;
+        }
+        
+        .error {
+            color: var(--error-color);
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 4px;
+        }
+        
+        .info {
+            color: var(--info-color);
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .preference-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .preference-controls select, 
+            .preference-controls button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <i class="fas fa-globe-americas globe-icon"></i>
+        <h1>Travel Planner</h1>
+    </header>
+    
+    <section class="destination-section">
+        <h2><i class="fas fa-map-marked-alt"></i> Destinations</h2>
+        
+        <div class="section-actions">
+            <button id="load-destinations">
+                <i class="fas fa-sync-alt"></i> Load Destinations
+            </button>
+        </div>
+        
+        <div id="destinations-container"></div>
+        <div id="destination-details" class="details-panel"></div>
+        
+        <h3><i class="fas fa-plus-circle"></i> Add New Destination</h3>
+        <form id="add-destination-form">
+            <input type="text" name="name" placeholder="Destination Name" required>
+            <input type="text" name="climate" placeholder="Climate (e.g., Tropical)" required>
+            <input type="text" name="budget" placeholder="Budget Level (Low/Medium/High)" required>
+            <input type="text" name="bestTime" placeholder="Best Time to Visit" required>
+            <button type="submit">
+                <i class="fas fa-save"></i> Add Destination
+            </button>
+        </form>
+    </section>
+    
+    <section class="preference-section">
+        <h2><i class="fas fa-heart"></i> Travel Preferences</h2>
+        
+        <div class="preference-controls">
+            <select id="pref-climate" required>
+                <option value="">Select Climate</option>
+                <option value="tropical">Tropical</option>
+                <option value="arid">Arid</option>
+                <option value="mediterranean">Mediterranean</option>
+                <option value="continental">Continental</option>
+            </select>
+            <select id="pref-budget" required>
+                <option value="">Select Budget</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button id="save-preference">
+                <i class="fas fa-save"></i> Save Preference
+            </button>
+        </div>
+        
+        <div class="section-actions">
+            <button id="load-preferences">
+                <i class="fas fa-sync-alt"></i> Load My Preferences
+            </button>
+        </div>
+        
+        <div id="preference-list"></div>
+        <div id="preference-details" class="details-panel"></div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
